@@ -3,6 +3,7 @@
 module.exports = {
 	extends: 'recommended',
 	rules: {
-		indent: ['error', 'tab']
+		'attribute-indentation': false,
+		'block-indentation': false
 	}
 };

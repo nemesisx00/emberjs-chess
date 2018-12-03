@@ -5,16 +5,18 @@
 	<div class="label">&nbsp;</div>
 </div>
 {{#each model.files as |file i|}}
-	<div class="rank">
-		{{#each model.ranks as |rank j|}}
-			{{#if
-				(or (and (eq (mod i 2) 0) (eq (mod j 2) 0)) (and (eq (mod i 2) 1) (eq (mod j 2) 1)))
-			}}
-				{{chess-board-tile id=(concat rank file) class="file"}}
-			{{else}}
-				{{chess-board-tile id=(concat rank file) class="file" alternateColor=true}}
-			{{/if}}
-		{{/each}}
-		<div class="label">{{file}}</div>
-	</div>
+<div class="rank">
+	{{#each model.ranks as |rank j|}}
+		{{#if (or (and (eq (mod i 2) 0) (eq (mod j 2) 0)) (and (eq (mod i 2) 1) (eq (mod j 2) 1)) ) }}
+			{{chess-board-tile id=(concat rank file) class="file"}}
+		{{else}}
+			{{#chess-board-tile id=(concat rank file) class="file alt"}}
+				{{#if (and (eq i 0) (eq j 1)) }}
+					{{#chess-piece id="what"}}P{{/chess-piece}}
+				{{/if}}
+			{{/chess-board-tile}}
+		{{/if}}
+	{{/each}}
+	<div class="label">{{file}}</div>
+</div>
 {{/each}}

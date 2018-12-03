@@ -39,3 +39,14 @@
 	background-color: #555;
 }
 #board .file.alt { background-color: #CCC; }
+
+#board .piece
+{
+	color: #000;
+	width: 90px;
+	height: 90px;
+	font-size: 4em;
+	font-weight: bold;
+	line-height: 90px;
+	text-align: center;
+}
