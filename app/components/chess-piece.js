@@ -1,12 +1,25 @@
 import Component from '@ember/component';
 
 export default Component.extend({
-	classNames: [ 'piece' ],
 	attributeBindings: ['draggable'],
+	classNames: [ 'piece' ],
+	classNameBindings: ['dragging'],
+	
 	draggable: 'true',
 	
-	drag(e)
+	dragging: false,
+	
+	dragStart(e)
 	{
-		e.dataTransfer.setData('text/plain', this.elementId)
+		let dataTransfer = e.originalEvent.dataTransfer
+		dataTransfer.dropEffect = 'move'
+		
+		dataTransfer.setData('text/plain', this.elementId)
+		this.dragging = true
+	},
+	
+	dragEnd(e)
+	{
+		this.dragging = false
 	}
 });
