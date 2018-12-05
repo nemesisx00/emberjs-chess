@@ -8,8 +8,9 @@ body
 	background-color: #111;
 }
 
-#appLabel
+#appHead
 {
+	width: 100%;
 	margin: 0 auto;
 	padding: 10px 0;
 	margin-bottom: 25px;
@@ -18,3 +19,30 @@ body
 	text-align: center;
 	background-color: #222;
 }
+
+#appFoot
+{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	background-color: #222;
+}
+
+#appFoot > *
+{
+	flex: 0 1 auto;
+	margin: 0 10px;
+}
+
+#appFoot > a
+{
+	color: inherit;
+	text-decoration: none;
+}
+#appFoot > a:hover { text-decoration: underline; }
