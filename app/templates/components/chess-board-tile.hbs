@@ -1,1 +1,5 @@
-{{yield}}
+{{#if (piece-exists pieces (concat file rank) )}}
+	{{#chess-piece class=(piece-class pieces (concat file rank) ) }}
+		{{piece-content pieces (concat file rank)}}
+	{{/chess-piece}}
+{{/if}}

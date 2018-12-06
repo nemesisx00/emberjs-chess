@@ -9,21 +9,9 @@
 <div class="rank">
 	{{#each model.ranks as |rank j|}}
 		{{#if (or (and (eq (mod i 2) 0) (eq (mod j 2) 0)) (and (eq (mod i 2) 1) (eq (mod j 2) 1)) ) }}
-			{{#chess-board-tile id=(concat rank file) class="file"}}
-				{{#if (piece-exists model.pieces (concat file rank) )}}
-					{{#chess-piece class=(piece-class model.pieces (concat file rank) )}}
-						{{piece-content model.pieces (concat file rank)}}
-					{{/chess-piece}}
-				{{/if}}
-			{{/chess-board-tile}}
+			{{chess-board-tile id=(concat file rank) pieces=model.pieces rank=rank file=file}}
 		{{else}}
-			{{#chess-board-tile id=(concat rank file) class="file alt"}}
-				{{#if (piece-exists model.pieces (concat file rank) )}}
-					{{#chess-piece class=(piece-class model.pieces (concat file rank) )}}
-						{{piece-content model.pieces (concat file rank)}}
-					{{/chess-piece}}
-				{{/if}}
-			{{/chess-board-tile}}
+			{{chess-board-tile id=(concat file rank) alt=true pieces=model.pieces rank=rank file=file}}
 		{{/if}}
 	{{/each}}
 	<div class="label">{{file}}</div>

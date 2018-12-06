@@ -6,27 +6,8 @@ export function pieceContent(params/*, hash*/)
 	let key = params[1]
 	
 	let out = ''
-	switch(pieces[key].piece)
-	{
-		case 'rook':
-			out = 'R'
-			break
-		case 'knight':
-			out = 'Kn'
-			break
-		case 'bishop':
-			out = 'B'
-			break
-		case 'king':
-			out = 'K'
-			break
-		case 'queen':
-			out = 'Q'
-			break
-		default:
-			out = 'P'
-			break
-	}
+	if(pieces[key])
+		out = pieces[key].piece
 	
 	return out
 }

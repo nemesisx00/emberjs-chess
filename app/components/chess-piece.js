@@ -1,25 +1,31 @@
 import Component from '@ember/component';
+import MovementProcessor from '../utils/movement-processor'
 
 export default Component.extend({
 	attributeBindings: ['draggable'],
-	classNames: [ 'piece' ],
-	classNameBindings: ['dragging'],
-	
 	draggable: 'true',
 	
+	classNames: [ 'piece' ],
+	classNameBindings: ['dragging'],
 	dragging: false,
+	
+	didRender()
+	{
+		this.element.dataset.piece = this.element.innerHTML.trim()
+		this.element.dataset.color = this.element.className.indexOf(MovementProcessor.Colors.Black) > -1
+									? MovementProcessor.Colors.Black
+									: MovementProcessor.Colors.White
+	},
 	
 	dragStart(e)
 	{
-		let dataTransfer = e.originalEvent.dataTransfer
-		dataTransfer.dropEffect = 'move'
-		
-		dataTransfer.setData('text/plain', this.elementId)
-		this.dragging = true
+		e.dataTransfer.dropEffect = 'move'
+		e.dataTransfer.setData('text/plain', this.elementId)
+		this.set('dragging', true)
 	},
 	
 	dragEnd(e)
 	{
-		this.dragging = false
+		this.set('dragging', false)
 	}
 });

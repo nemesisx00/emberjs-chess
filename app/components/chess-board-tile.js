@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import MovementProcessor from '../utils/movement-processor'
 
 function cancel(e)
 {
@@ -8,20 +9,30 @@ function cancel(e)
 
 export default Component.extend({
 	classNames: [ 'file' ],
+	classNameBindings: [ 'alt' ],
 	
-	piece: null,
+	alt: false,
 	
 	dragEnter: cancel,
 	dragOver: cancel,
 	
 	drop(e)
 	{
-		let pieceId = e.originalEvent.dataTransfer.getData('text/plain')
+		let pieceId = e.dataTransfer.getData('text/plain')
 		if(pieceId)
 		{
 			let el = document.querySelector(`#${pieceId}`)
 			if(el)
-				this.element.appendChild(el)
+			{
+				let origin = el.parentElement.id
+				let destination = this.elementId
+				
+				if(MovementProcessor.validateMove(el.dataset.piece, el.dataset.color, origin, destination))
+				{
+					if(this.element.children.length < 1)
+						this.element.appendChild(el)
+				}
+			}
 		}
 		
 		e.preventDefault()
