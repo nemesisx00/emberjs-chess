@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import MovementProcessor from '../utils/movement-processor'
+import TileScanner from '../utils/tile-scanner';
 
 function cancel(e)
 {
@@ -27,10 +28,13 @@ export default Component.extend({
 				let origin = el.parentElement.id
 				let destination = this.elementId
 				
-				if(MovementProcessor.validateMove(el.dataset.piece, el.dataset.color, origin, destination))
+				if(
+					MovementProcessor.Instance.validateMove(el.dataset.piece, el.dataset.color, origin, destination)
+					&& !TileScanner.Instance.detectCollision(origin, destination)
+					&& this.element.children.length < 1
+				)
 				{
-					if(this.element.children.length < 1)
-						this.element.appendChild(el)
+					this.element.appendChild(el)
 				}
 			}
 		}

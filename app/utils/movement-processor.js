@@ -15,90 +15,115 @@ const Pieces = Object.freeze({
 const Ranks = Object.freeze([1, 2, 3, 4, 5, 6, 7, 8])
 const Files = Object.freeze(['A','B','C','D','E','F','G','H'])
 
-function directionalDistance(origin, destination, isRank)
-{
-	let [oFile, oRank] = origin.split('')
-	let [dFile, dRank] = destination.split('')
-	
-	let oIndex = null
-	let dIndex = null
-	if(isRank === true)
-	{
-		oIndex = Number.parseInt(oRank)
-		dIndex = Number.parseInt(dRank)
-	}
-	else
-	{
-		oIndex = Files.indexOf(oFile)
-		dIndex = Files.indexOf(dFile)
-	}
-	
-	return oIndex > dIndex ? oIndex - dIndex : dIndex - oIndex
-}
+const KingMoves = [
+	[1, 0],
+	[0, 1],
+	[1, 1]
+]
 
-function isHorizontal(origin, destination)
-{
-	let fileDistance = directionalDistance(origin, destination)
-	let rankDistance = directionalDistance(origin, destination, true)
-	
-	return fileDistance > 0 && rankDistance == 0
-}
-
-function isVertical(origin, destination)
-{
-	let fileDistance = directionalDistance(origin, destination)
-	let rankDistance = directionalDistance(origin, destination, true)
-	
-	return fileDistance == 0 && rankDistance > 0
-}
-
-function isDiagonal(origin, destination)
-{
-	let fileDistance = directionalDistance(origin, destination)
-	let rankDistance = directionalDistance(origin, destination, true)
-	
-	return fileDistance == rankDistance
-}
+const KnightMoves = [
+	[1, 2],
+	[2, 1]
+]
 
 class MovementProcessor
 {
-	static validateMove(piece, color, origin, destination)
+	constructor(origin, destination)
+	{
+		this.origin = null
+		this.destination = null
+		this.oFile = null
+		this.oRank = null
+		this.dFile = null
+		this.dRank = null
+		this.fileDistance = null
+		this.rankDistance = null
+		
+		this.update(origin, destination)
+	}
+	
+	get isHorizontal() { return this.fileDistance > 0 && this.rankDistance == 0 }
+	get isVertical() { return this.fileDistance == 0 && this.rankDistance > 0 }
+	get isDiagonal() { return this.fileDistance == this.rankDistance }
+	
+	update(origin, destination)
+	{
+		this.origin = origin
+		this.destination = destination
+		
+		if(this.origin && this.destination)
+		{
+			let [oFile, oRank] = this.origin.split('')
+			let [dFile, dRank] = this.destination.split('')
+			
+			this.oFile = oFile
+			this.oRank = Number.parseInt(oRank)
+			this.dFile = dFile
+			this.dRank = Number.parseInt(dRank)
+			
+			this.fileDistance = this.directionalDistance()
+			this.rankDistance = this.directionalDistance(true)
+		}
+	}
+	
+	directionalDistance(isRank)
+	{
+		let oIndex = null
+		let dIndex = null
+		if(isRank === true)
+		{
+			oIndex = Number.parseInt(this.oRank)
+			dIndex = Number.parseInt(this.dRank)
+		}
+		else
+		{
+			oIndex = Files.indexOf(this.oFile)
+			dIndex = Files.indexOf(this.dFile)
+		}
+		
+		return oIndex > dIndex ? oIndex - dIndex : dIndex - oIndex
+	}
+	
+	validateMove(piece, color, origin, destination)
 	{
 		let out = false
 		
+		if(origin && destination)
+			this.update(origin, destination)
+		
 		switch(piece)
 		{
-		case Pieces.Bishop:
-			out = isDiagonal(origin, destination)
-			break
-		case Pieces.King:
-			out = (directionalDistance(origin, destination) == 1 && directionalDistance(origin, destination, true) == 0)
-					|| (directionalDistance(origin, destination) == 0 && directionalDistance(origin, destination, true) == 1)
-					|| (directionalDistance(origin, destination) == 1 && directionalDistance(origin, destination, true) == 1)
-			break
-		case Pieces.Knight:
-			out = (directionalDistance(origin, destination) == 2 && directionalDistance(origin, destination, true) == 1)
-					|| (directionalDistance(origin, destination) == 1 && directionalDistance(origin, destination, true) == 2)
-			break
-		case Pieces.Pawn:
-			out = isVertical(origin, destination)
-					&& directionalDistance(origin, destination, true) == 1
+			case Pieces.Bishop:
+				out = this.isDiagonal
+				break
+			case Pieces.King:
+				out = KingMoves.find(arr => arr[0] == this.fileDistance && arr[1] == this.rankDistance)
+				break
+			case Pieces.Knight:
+				out = KnightMoves.find(arr => arr[0] == this.fileDistance && arr[1] == this.rankDistance)
+				break
+			case Pieces.Pawn:
+				out = this.isVertical
+						&& this.rankDistance == 1
+						&& (
+							(color == Colors.Black && this.oRank > this.dRank)
+							|| (color == Colors.White && this.oRank < this.dRank)
+						)
+				break
+			case Pieces.Queen:
+				out = this.isVertical && !this.isHorizontal && !this.isDiagonal
+						|| !this.isVertical && this.isHorizontal && !this.isDiagonal
+						|| !this.isVertical && !this.isHorizontal && this.isDiagonal
+				break
+			case Pieces.Rook:
+				out = !this.isDiagonal
 					&& (
-						(color == Colors.Black && origin.substring(1, 2) > destination.substring(1, 2))
-						|| (color == Colors.White && origin.substring(1, 2) > destination.substring(1, 2))
+						(this.isVertical && !this.isHorizontal)
+						|| (!this.isVertical && this.isHorizontal)
 					)
-			break
-		case Pieces.Queen:
-			out = isVertical(origin, destination) && !isHorizontal(origin, destination) && !isDiagonal(origin, destination)
-					|| !isVertical(origin, destination) && isHorizontal(origin, destination) && !isDiagonal(origin, destination)
-					|| !isVertical(origin, destination) && !isHorizontal(origin, destination) && isDiagonal(origin, destination)
-			break
-		case Pieces.Rook:
-			out = isVertical(origin, destination) && !isHorizontal(origin, destination) && !isDiagonal(origin, destination)
-					|| !isVertical(origin, destination) && isHorizontal(origin, destination) && !isDiagonal(origin, destination)
-			break
-		default:
-			break
+				break
+			default:
+				break
 		}
 		
 		return out
@@ -109,5 +134,6 @@ MovementProcessor.Colors = Colors
 MovementProcessor.Files = Files
 MovementProcessor.Pieces = Pieces
 MovementProcessor.Ranks = Ranks
+MovementProcessor.Instance = new MovementProcessor()
 
 export default MovementProcessor

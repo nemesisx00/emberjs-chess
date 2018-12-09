@@ -13,8 +13,8 @@ export default Component.extend({
 	{
 		this.element.dataset.piece = this.element.innerHTML.trim()
 		this.element.dataset.color = this.element.className.indexOf(MovementProcessor.Colors.Black) > -1
-									? MovementProcessor.Colors.Black
-									: MovementProcessor.Colors.White
+			? MovementProcessor.Colors.Black
+			: MovementProcessor.Colors.White
 	},
 	
 	dragStart(e)
@@ -24,7 +24,7 @@ export default Component.extend({
 		this.set('dragging', true)
 	},
 	
-	dragEnd(e)
+	dragEnd()
 	{
 		this.set('dragging', false)
 	}
