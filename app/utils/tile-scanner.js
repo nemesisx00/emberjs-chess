@@ -42,58 +42,16 @@ class TileScanner
 			let oIndex = MovementProcessor.Files.indexOf(this.mp.oFile)
 			let dIndex = MovementProcessor.Files.indexOf(this.mp.dFile)
 			
-			let r = this.mp.oRank
-			let f = oIndex
+			let rStep = this.mp.oRank > this.mp.dRank ? -1 : 1
+			let fStep = oIndex > dIndex ? -1 : 1
 			
-			if(r > this.mp.dRank)
+			for(
+				let r = this.mp.oRank, f = oIndex;
+				(rStep > 0 ? (r < this.mp.dRank) : (r > this.mp.dRank));
+				r = r + rStep, f = f + fStep
+			)
 			{
-				// - -
-				if(f > dIndex)
-				{
-					while(r > this.mp.dRank)
-					{
-						r--
-						f--
-						
-						tiles.push(`${MovementProcessor.Files[f]}${r}`)
-					}
-				}
-				// - +
-				else
-				{
-					while(r > this.mp.dRank)
-					{
-						r--
-						f++
-						
-						tiles.push(`${MovementProcessor.Files[f]}${r}`)
-					}
-				}
-			}
-			else
-			{
-				// + -
-				if(f > dIndex)
-				{
-					while(r < this.mp.dRank)
-					{
-						r++
-						f--
-						
-						tiles.push(`${MovementProcessor.Files[f]}${r}`)
-					}
-				}
-				// + +
-				else
-				{
-					while(r < this.mp.dRank)
-					{
-						r++
-						f++
-						
-						tiles.push(`${MovementProcessor.Files[f]}${r}`)
-					}
-				}
+				tiles.push(`${MovementProcessor.Files[f]}${r}`)
 			}
 		}
 		

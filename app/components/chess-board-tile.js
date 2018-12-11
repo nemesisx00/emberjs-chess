@@ -19,7 +19,9 @@ export default Component.extend({
 	
 	drop(e)
 	{
-		let pieceId = e.dataTransfer.getData('text/plain')
+		let json = JSON.parse(e.dataTransfer.getData('text/plain'))
+		
+		let pieceId = json.elementId
 		if(pieceId)
 		{
 			let el = document.querySelector(`#${pieceId}`)
@@ -29,7 +31,7 @@ export default Component.extend({
 				let destination = this.elementId
 				
 				if(
-					MovementProcessor.Instance.validateMove(el.dataset.piece, el.dataset.color, origin, destination)
+					MovementProcessor.Instance.validateMove(el.dataset.piece, el.dataset.color, origin, destination, json.firstMove)
 					&& !TileScanner.Instance.detectCollision(origin, destination)
 					&& this.element.children.length < 1
 				)

@@ -84,7 +84,7 @@ class MovementProcessor
 		return oIndex > dIndex ? oIndex - dIndex : dIndex - oIndex
 	}
 	
-	validateMove(piece, color, origin, destination)
+	validateMove(piece, color, origin, destination, firstMove)
 	{
 		let out = false
 		
@@ -104,7 +104,10 @@ class MovementProcessor
 				break
 			case Pieces.Pawn:
 				out = this.isVertical
-						&& this.rankDistance == 1
+						&& (
+							this.rankDistance == 1
+							|| (firstMove === true && this.rankDistance == 2)
+						)
 						&& (
 							(color == Colors.Black && this.oRank > this.dRank)
 							|| (color == Colors.White && this.oRank < this.dRank)
