@@ -44,12 +44,11 @@ class TileScanner
 			
 			let rStep = this.mp.oRank > this.mp.dRank ? -1 : 1
 			let fStep = oIndex > dIndex ? -1 : 1
+			let comparison = index => index < this.mp.dRank
+			if(rStep < 0)
+				comparison = index => index > this.mp.dRank
 			
-			for(
-				let r = this.mp.oRank, f = oIndex;
-				(rStep > 0 ? (r < this.mp.dRank) : (r > this.mp.dRank));
-				r = r + rStep, f = f + fStep
-			)
+			for(let r = this.mp.oRank, f = oIndex; comparison(r); r = r + rStep, f = f + fStep)
 			{
 				tiles.push(`${MovementProcessor.Files[f]}${r}`)
 			}
