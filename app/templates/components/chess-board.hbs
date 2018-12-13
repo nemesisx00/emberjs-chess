@@ -9,9 +9,9 @@
 <div class="rank">
 	{{#each model.ranks as |rank j|}}
 		{{#if (or (and (eq (mod i 2) 0) (eq (mod j 2) 0)) (and (eq (mod i 2) 1) (eq (mod j 2) 1)) ) }}
-			{{chess-board-tile id=(concat file rank) pieces=model.pieces rank=rank file=file}}
+			{{chess-board-tile id=(concat file rank) pieces=model.pieces rank=rank file=file onTurnComplete=(action "turnComplete") }}
 		{{else}}
-			{{chess-board-tile id=(concat file rank) alt=true pieces=model.pieces rank=rank file=file}}
+			{{chess-board-tile id=(concat file rank) alt=true pieces=model.pieces rank=rank file=file onTurnComplete=(action "turnComplete") }}
 		{{/if}}
 	{{/each}}
 	<div class="label">{{file}}</div>

@@ -1,4 +1,4 @@
-import Route from '@ember/routing/route';
+import Route from '@ember/routing/route'
 import MovementProcessor from '../utils/movement-processor'
 
 let ranks = []

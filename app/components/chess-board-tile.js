@@ -37,6 +37,7 @@ export default Component.extend({
 				)
 				{
 					this.element.appendChild(el)
+					this.onTurnComplete()
 				}
 			}
 		}

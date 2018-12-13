@@ -11,6 +11,8 @@ export default Component.extend({
 	
 	firstMove: null,
 	
+	board: document.querySelector('#board'),
+	
 	didRender()
 	{
 		this.element.dataset.piece = this.element.innerHTML.trim()
@@ -23,9 +25,19 @@ export default Component.extend({
 	
 	dragStart(e)
 	{
-		e.dataTransfer.dropEffect = 'move'
-		e.dataTransfer.setData('text/plain', JSON.stringify({ elementId: this.elementId, firstMove: this.firstMove }))
-		this.set('dragging', true)
+		if(this.board.dataset.nextTurn == this.element.dataset.color)
+		{
+			e.dataTransfer.dropEffect = 'move'
+			e.dataTransfer.setData('text/plain', JSON.stringify({ elementId: this.elementId, firstMove: this.firstMove }))
+			this.set('dragging', true)
+		}
+		else
+		{
+			this.set('dragging', false)
+			e.preventDefault()
+		}
+
+
 	},
 	
 	dragEnd()
