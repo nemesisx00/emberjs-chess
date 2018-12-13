@@ -30,14 +30,19 @@ export default Component.extend({
 				let origin = el.parentElement.id
 				let destination = this.elementId
 				
-				if(
-					MovementProcessor.Instance.validateMove(el.dataset.piece, el.dataset.color, origin, destination, json.firstMove)
-					&& !TileScanner.Instance.detectCollision(origin, destination)
-					&& this.element.children.length < 1
-				)
+				if(MovementProcessor.Instance.validateMove(el.dataset.piece, el.dataset.color, origin, destination, json.firstMove)
+					&& !TileScanner.Instance.detectCollision(origin, destination))
 				{
-					this.element.appendChild(el)
-					this.onTurnComplete()
+					//Allow capturing
+					//TODO: At some point, add logging here to track captures as they happen.
+					if(this.element.children.length < 1 || (this.element.children.length > 0 && this.element.children[0].dataset.color != el.dataset.color))
+					{
+						if(this.element.children.length > 0)
+							this.element.removeChild(this.element.children[0])
+						
+						this.element.appendChild(el)
+						this.onTurnComplete()
+					}
 				}
 			}
 		}

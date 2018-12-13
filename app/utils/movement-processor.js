@@ -103,15 +103,14 @@ class MovementProcessor
 				out = KnightMoves.find(arr => arr[0] == this.fileDistance && arr[1] == this.rankDistance)
 				break
 			case Pieces.Pawn:
-				out = this.isVertical
-						&& (
-							this.rankDistance == 1
-							|| (firstMove === true && this.rankDistance == 2)
-						)
+				let destPieceExists = document.querySelector(`#${this.destination}`).children.length > 0
+				
+				out = (this.rankDistance == 1 || (firstMove === true && this.rankDistance == 2))
 						&& (
 							(color == Colors.Black && this.oRank > this.dRank)
 							|| (color == Colors.White && this.oRank < this.dRank)
 						)
+						&& ((this.isVertical && !destPieceExists) || (this.isDiagonal && destPieceExists))
 				break
 			case Pieces.Queen:
 				out = this.isVertical && !this.isHorizontal && !this.isDiagonal
