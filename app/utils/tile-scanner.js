@@ -54,14 +54,13 @@ class TileScanner
 			}
 		}
 		
+		//Don't count the origin because how can you collide with yourself?
 		//Don't count the destination as a collision. This will be handled in the piece capture logic.
-		tiles = tiles.filter(id => id != destination)
-		
-		let originPiece = document.querySelector(`#${origin} .piece`)
+		let omit = [ origin, destination ]
+		tiles = tiles.filter(id => omit.indexOf(id) < 0)
 		for(let id of tiles)
 		{
-			let el = document.querySelector(`#${id} .piece`)
-			out = el instanceof Element && el != originPiece
+			out = document.querySelector(`#${id} .piece`) instanceof Element
 			if(out)
 				break
 		}

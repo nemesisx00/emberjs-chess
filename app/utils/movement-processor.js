@@ -91,6 +91,7 @@ class MovementProcessor
 		if(origin && destination)
 			this.update(origin, destination)
 		
+		let destPieceExists = document.querySelector(`#${this.destination}`).children.length > 0
 		switch(piece)
 		{
 			case Pieces.Bishop:
@@ -103,8 +104,6 @@ class MovementProcessor
 				out = KnightMoves.find(arr => arr[0] == this.fileDistance && arr[1] == this.rankDistance)
 				break
 			case Pieces.Pawn:
-				let destPieceExists = document.querySelector(`#${this.destination}`).children.length > 0
-				
 				out = (this.rankDistance == 1 || (firstMove === true && this.rankDistance == 2))
 						&& (
 							(color == Colors.Black && this.oRank > this.dRank)
