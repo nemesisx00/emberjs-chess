@@ -1,0 +1,79 @@
+#container
+{
+	display: flex;
+	flex-flow: column nowrap;
+	text-align: center;
+	justify-content: center;
+	
+	width: 80%;
+	margin: 0 auto;
+}
+#container > *
+{
+	flex: 1 0 auto;
+}
+
+#container p
+{
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#container p a
+{
+	width: 100px;
+	height: 50px;
+	line-height: 50px;
+	display: block;
+	margin: 0 auto;
+	font-size: 1.5em;
+	text-decoration: none;
+	color: rgba(255, 255, 255, 0.6);
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+#container p { text-align: justify; }
+#container p:last-child { text-align: center; }
+
+#container #features
+{
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: left;
+}
+#container #features > * { flex: 1 0 30%; }
+
+#container #features ul { margin-left: 10px; border-left: 1px solid #333; }
+#container #features ul:first-child { padding-left: 20px; margin-left: 0; border-left: 0 none; }
+
+#container #features ul li
+{
+	margin: 10px 0;
+	text-align: left;
+	list-style-type: square;
+}
+#container #features ul li:first-child
+{
+	font-weight: bold;
+	text-align: center;
+	list-style-type: none;
+}
+
+#container #features .done li:first-child { color: darkgreen; }
+#container #features .notyet li:first-child { color: darkgoldenrod; }
+#container #features .unlikely li:first-child { color: firebrick; }
+
+@media(max-width: 900px)
+{
+	#container p { width: 100%; }
+	#container #features { flex-flow: column nowrap; }
+	#container #features ul
+	{
+		padding-top: 10px;
+		margin-left: 0;
+		border-left: 0 none;
+		border-top: 1px solid #333;
+	}
+	#container #features ul:first-child { border-top: 0 none; }
+}

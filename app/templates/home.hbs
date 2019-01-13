@@ -1,0 +1,43 @@
+<div id="container">
+	<p>
+		Welcome to a simple but playable implementation of chess!
+		If you want to skip right to the game, click the Play button
+		at the bottom of this page.
+	</p>
+	<p>
+		I decided to work on this project as a fun way to become more
+		familiar with the Ember.js framework. The main goal was to create
+		a playable implementation of chess only using Javascript. I focused
+		on using ES6 or newer syntax, apart from some of the code generated
+		by the framework.
+	</p>
+	<p>
+		While I have attempted to faithfully recreate the game of chess, I
+		am not likely to fully implement every rule imaginable. Here is a
+		quick breakdown of the current state of my implementation.
+	</p>
+	<div id="features">
+		<ul class="done">
+			<li>Implemented</li>
+			<li>Basic Movement - Each piece moves according to their own distinct rules</li>
+			<li>Collision Detection - Pieces aren't allowed to move over other pieces, with the exception of the knight</li>
+			<li>Piece Capture - Moving a piece onto a square occupied by the opposing player will capture the opposing piece</li>
+			<li>Player Turns - Each player gets one move per turn; White gets the first move</li>
+		</ul>
+		<ul class="notyet">
+			<li>Planned</li>
+			<li>Check - Prevent a king from moving into check; Force the player whose king is in check to resolve it, if possible</li>
+			<li>Checkmate - Detect if there are no legal moves remaining to remove a king from check</li>
+			<li>Castling - Allow a king to castle with either rook</li>
+			<li>Pawn Promotion - Promote a pawn to another piece if it moves to the edge of the board opposite of its starting position</li>
+			<li>Scoreboard - Keep track of, and display, the pieces each player has captured</li>
+		</ul>
+		<ul class="unlikely">
+			<li>Not Planned</li>
+			<li>En Passant - Allows a pawn (P1) to capture another pawn (P2) when P2 has moved two squares and P1 would have been able to capture P2 had P2 only moved one square</li>
+		</ul>
+	</div>
+	<p>
+		{{#link-to 'game' class='button'}}Play{{/link-to}}
+	</p>
+</div>
